@@ -21,7 +21,7 @@ void avanza_p(void){
    output_d(0xa0);//salia a motores -> 1010 0000 
    set_pwm2_duty(75); //ccp1 = 40%(motor izquierdo)
    set_pwm1_duty(60); //ccp2 = 40%(motor derecho)
-   delay_ms(200);
+   delay_ms(220);
    set_pwm2_duty(0); //ccp1 = 40%(motor izquierdo)
    set_pwm1_duty(0); //ccp2 = 40%(motor derecho)
 }
@@ -119,7 +119,7 @@ void main(){
       }
       
       //Izquierda media
-      if(sensores==0B00010000){
+      if(sensores==0B00010000 || sensores==0B00011000){
          output_d(0xa0);//salia a motores -> 1010 0000
          set_pwm2_duty(46); //ccp1 = 40%(motor izquierdo)
          set_pwm1_duty(75); //ccp2 = 40%(motor derecho)
@@ -132,7 +132,7 @@ void main(){
       }
       
       //Derecha media
-      if(sensores==0B00000001){
+      if(sensores==0B00000001 || sensores==0B00000011){
          output_d(0xa0);//salia a motores -> 1010 0000
          set_pwm2_duty(75); //ccp1 = 40%(motor izquierdo)
          set_pwm1_duty(46); //ccp2 = 40%(motor derecho)
@@ -155,19 +155,18 @@ void main(){
          giro_180();
       }
       //caso camino solo a la derecha 
-      if(sensores==0B00000111 || sensores==0B00000011){
+      if(sensores==0B00000111 || sensores==0B00001111){
          avanza_p();
          sensores=input_a();
          if(sensores==0B00000000){
             giro_90_der();
-         }
-         if(sensores==0B00000000){
+         }else{
             giro_90_der();
          }
          
       }
       //caso camino solo izq o hacia enfrente
-      if(sensores==0B00011100 || sensores==0B00011000){
+      if(sensores==0B00011100 || sensores==0B00011110){
          giro_90_izq();
       }
       
